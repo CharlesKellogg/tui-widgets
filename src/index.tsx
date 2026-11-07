@@ -1,5 +1,25 @@
 import { createCliRenderer, TextAttributes } from "@opentui/core";
 import { createRoot } from "@opentui/react";
+import { parseArgs } from "util";
+import { printWaybarWeatherFormat } from "./utils/weather";
+import { exit } from "process";
+
+const { values } = parseArgs({
+  args: Bun.argv,
+  options: {
+    command: {
+      type: "string",
+    },
+  },
+  strict: true,
+  allowPositionals: true,
+});
+
+switch (values.command) {
+  case "waybar-weather":
+    await printWaybarWeatherFormat();
+    exit();
+}
 
 function App() {
   return (
@@ -12,5 +32,5 @@ function App() {
   );
 }
 
-const renderer = await createCliRenderer();
-createRoot(renderer).render(<App />);
+// const renderer = await createCliRenderer();
+// createRoot(renderer).render(<App />);
