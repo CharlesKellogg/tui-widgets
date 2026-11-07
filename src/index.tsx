@@ -1,7 +1,7 @@
 import { createCliRenderer, TextAttributes } from "@opentui/core";
 import { createRoot } from "@opentui/react";
 import { parseArgs } from "util";
-import { printWaybarWeatherFormat } from "./utils/weather";
+import { printStatusBarWeatherFormat } from "./utils/weather";
 import { exit } from "process";
 
 const { values } = parseArgs({
@@ -16,8 +16,8 @@ const { values } = parseArgs({
 });
 
 switch (values.command) {
-  case "waybar-weather":
-    await printWaybarWeatherFormat();
+  case "status-bar-weather":
+    await printStatusBarWeatherFormat();
     exit();
 }
 
