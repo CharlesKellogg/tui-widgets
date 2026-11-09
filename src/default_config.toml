@@ -1,0 +1,6 @@
+[menu]
+items = []
+
+[weather]
+latitude = 0
+longitude = 0

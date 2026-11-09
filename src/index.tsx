@@ -1,8 +1,11 @@
-import { createCliRenderer, TextAttributes } from "@opentui/core";
+import { createCliRenderer } from "@opentui/core";
 import { createRoot } from "@opentui/react";
 import { parseArgs } from "util";
-import { printStatusBarWeatherFormat } from "./utils/weather";
 import { exit } from "process";
+import { type ReactNode } from "react";
+import { printStatusBarWeatherFormat } from "./utils/weather";
+import Menu from "./widgets/Menu";
+import { getConfig } from "./utils/config";
 
 const { values } = parseArgs({
   args: Bun.argv,
@@ -10,27 +13,26 @@ const { values } = parseArgs({
     command: {
       type: "string",
     },
+    config_file: {
+      type: "string",
+    },
   },
   strict: true,
   allowPositionals: true,
 });
 
+const config = await getConfig(values.config_file);
+
+let app: ReactNode;
+
 switch (values.command) {
+  case "menu":
+    app = <Menu />;
+    break;
   case "status-bar-weather":
-    await printStatusBarWeatherFormat();
+    await printStatusBarWeatherFormat(config);
     exit();
 }
 
-function App() {
-  return (
-    <box alignItems="center" justifyContent="center" flexGrow={1}>
-      <box justifyContent="center" alignItems="flex-end">
-        <ascii-font font="tiny" text="OpenTUI" />
-        <text attributes={TextAttributes.DIM}>What will you build?</text>
-      </box>
-    </box>
-  );
-}
-
-// const renderer = await createCliRenderer();
-// createRoot(renderer).render(<App />);
+const renderer = await createCliRenderer();
+createRoot(renderer).render(app);

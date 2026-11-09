@@ -1,4 +1,5 @@
 import { fetchWeatherApi } from "openmeteo";
+import type { Config } from "./config";
 
 /** Open-Meteo API URL */
 const url = "https://api.open-meteo.com/v1/forecast";
@@ -42,15 +43,12 @@ const weather: {
   99: { desc: "Thunderstorm with heavy hail", dayIcon: " ", nightIcon: " " },
 };
 
-const LAT = 0;
-const LONG = 0;
-
 /** Get weather information and print it in a format suitable for a status bar */
-export const printStatusBarWeatherFormat = async () => {
+export const printStatusBarWeatherFormat = async (config: Config) => {
   // Set parameters for the Open-Meteo API
   const params = {
-    latitude: LAT,
-    longitude: LONG,
+    latitude: config.weather.latitude,
+    longitude: config.weather.longitude,
     current: ["temperature_2m", "is_day", "weather_code"],
     forcast_days: 1,
     temperature_unit: "fahrenheit",
