@@ -27,7 +27,7 @@ let app: ReactNode;
 
 switch (values.command) {
   case "menu":
-    app = <Menu />;
+    app = <Menu config={config} />;
     break;
   case "status-bar-weather":
     await printStatusBarWeatherFormat(config);

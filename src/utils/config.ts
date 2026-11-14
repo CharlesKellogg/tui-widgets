@@ -2,7 +2,7 @@ import os from "os";
 import path from "path";
 import { $, file } from "bun";
 
-type MenuItem = { name: string; icon: string };
+type MenuItem = { name: string; icon: string; desc: string };
 type Command = MenuItem & { command: string };
 type SubMenu = MenuItem & {
   items: [SubMenu | Command];
@@ -28,6 +28,7 @@ export const getConfig = async (
   if (!configFile)
     configFile = path.join(await getXdgConfigHome(), "tui-widgets/config.toml");
 
+  // TODO: fill in blanks with default config
   const config: Config = (await file(configFile).exists())
     ? await import(configFile)
     : await import("../default_config.toml");
